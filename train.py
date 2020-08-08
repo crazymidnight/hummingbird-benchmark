@@ -26,10 +26,6 @@ y_val.to_csv(path / 'y_val.csv', index=False)
 X_test.to_csv(path / 'X_test.csv', index=False)
 y_test.to_csv(path / 'y_test.csv', index=False)
 
-train_data = lgb.Dataset(X_train, label=y_train)
-val_data = lgb.Dataset(X_val, label=y_val)
-test_data = lgb.Dataset(X_test, label=y_test)
-
 num_round = 50
 model = lgb.LGBMClassifier()
 model.fit(
@@ -37,6 +33,6 @@ model.fit(
     y_train,
     eval_set=[(X_val, y_val)],
     early_stopping_rounds=5,
-    eval_metric='f1',
+    eval_metric='binary_logloss',
 )
 joblib.dump(model, 'model.pkl')
